@@ -14,11 +14,13 @@ api_key = os.environ['OPENAI_API_KEY']
 print(api_key)
 openai.api_key=api_key
 
-persist_dir = "./LangChainTest/"#indexを作成する現在のディレクトリ
+persist_dir = "./LangChain/"#indexを作成する現在のディレクトリ
 if not os.path.exists(persist_dir):
     os.mkdir(persist_dir)
 
 documents = SimpleDirectoryReader("data").load_data()
+print(documents)
+
 
 index = GPTVectorStoreIndex.from_documents(documents)
 index.storage_context.persist(persist_dir)
