@@ -17,9 +17,9 @@ openai.api_key=api_key
 
 #index作成
 persist_dir = (os.path.dirname(__file__)+"\\").replace(os.getcwd().replace("C","c")+"\\","")
-index_dir = ".\\index\\"
-if not os.path.exists(persist_dir+index_dir):
-    os.mkdir(persist_dir+index_dir)
+index_dir = persist_dir+".\\index\\"
+if not os.path.exists(index_dir):
+    os.mkdir(index_dir)
 
 #ファイルの読み込み
 filename="data\\testpdf.pdf"
@@ -29,11 +29,11 @@ loader = download_loader("CJKPDFReader")#PDFローダーを準備
 docs = loader().load_data(root.replace(os.getcwd().replace("C","c")+"\\",""))
 
 
-index = GPTVectorStoreIndex.from_documents(docs)
-index.storage_context.persist(persist_dir)
+index = GPTVectorStoreIndex.from_documents(docs)#docsからindex作成
+index.storage_context.persist(index_dir)#index保存
 
 # load from disk
-storage_context = StorageContext.from_defaults(persist_dir=persist_dir)
+storage_context = StorageContext.from_defaults(persist_dir=index_dir)
 # load index
 index = load_index_from_storage(storage_context)
 
@@ -43,6 +43,4 @@ def print_response(prompt: str, index):
     print(query_engine.query(prompt))
 
 
-print_response("禁止になったカードは何ですか？", index)
-print_response("環境で最強のデッキは何ですか？", index)
-print_response("エスパーミッドレンジは何色のデッキですか？", index)
+print_response("大学入学試験が厳しいのはどの国ですか？", index)
