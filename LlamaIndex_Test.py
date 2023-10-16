@@ -38,6 +38,7 @@ storage_context = StorageContext.from_defaults(persist_dir=index_dir)
 index = load_index_from_storage(storage_context)
 
 
+#解答生成
 def print_response(prompt: str, index):
     query_engine = index.as_query_engine()
     print(query_engine.query(prompt))
