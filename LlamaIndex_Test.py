@@ -4,25 +4,32 @@ from dotenv import load_dotenv
 
 from llama_index import (
     GPTVectorStoreIndex,
-    SimpleDirectoryReader,
     StorageContext,
     load_index_from_storage,
+    download_loader
 )
 
+#APIキー取得して渡す
 load_dotenv()
 api_key = os.environ['OPENAI_API_KEY']
 print(api_key)
 openai.api_key=api_key
 
-persist_dir = "./LangChain/"#indexを作成する現在のディレクトリ
-if not os.path.exists(persist_dir):
-    os.mkdir(persist_dir)
+#index作成
+persist_dir = (os.path.dirname(__file__)+"\\").replace(os.getcwd().replace("C","c")+"\\","")
+index_dir = ".\\index\\"
+if not os.path.exists(persist_dir+index_dir):
+    os.mkdir(persist_dir+index_dir)
 
-documents = SimpleDirectoryReader("data").load_data()
-print(documents)
+#ファイルの読み込み
+filename="data\\testpdf.pdf"
+root=os.path.dirname(__file__)+"\\"+filename#実行ファイルがあるディレクトリを指定
+loader = download_loader("CJKPDFReader")#PDFローダーを準備
+#rootを作業ディレクトリの相対パスに変換して読み込み↓　触るな！
+docs = loader().load_data(root.replace(os.getcwd().replace("C","c")+"\\",""))
 
 
-index = GPTVectorStoreIndex.from_documents(documents)
+index = GPTVectorStoreIndex.from_documents(docs)
 index.storage_context.persist(persist_dir)
 
 # load from disk
