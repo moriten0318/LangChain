@@ -2,6 +2,11 @@ import os
 import openai
 from dotenv import load_dotenv
 
+from google.oauth2.service_account import Credentials
+import gspread
+import socket
+import time
+
 from llama_index import (
     GPTVectorStoreIndex,
     StorageContext,
@@ -45,3 +50,5 @@ def print_response(prompt: str, index):
 
 
 print_response("大学入学試験が厳しいのはどの国ですか？", index)
+
+
