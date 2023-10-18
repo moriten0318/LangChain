@@ -100,7 +100,3 @@ while True:
         current_list = new_list
         lastnum = len(current_list)
         time.sleep(5.0)
-
-
-
-
