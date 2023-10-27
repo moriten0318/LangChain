@@ -19,7 +19,7 @@ rec_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 rec_socket.bind((HOST, recPORT))
 sen_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-instruction = "次のルールに従って答えてください。与えられた文章を分析し、その発言をしている人がどのような感情を持っているか答えてください。感情は「怒り」「悲しみ」「驚き」「恥ずかしい」「嬉しい」の５種類いずれかで答えてください.答える際は単語のみ感情を示す５種類の単語のうちいずれかの単語のみを発言してください。"
+instruction = "次のルールに従って答えてください。与えられた文章を分析し、その発言をしている人がどのような感情を持っているか答えてください。感情は「怒り」「悲しい」「驚き」「恥ずかしい」「嬉しい」の５種類いずれかで答えてください.答える際は単語のみ感情を示す５種類の単語のうちいずれかの単語のみを発言してください。"
 
 def GPT(txt):
     response = openai.ChatCompletion.create(
