@@ -77,7 +77,7 @@ index = load_index_from_storage(storage_context)
 #インデックスから解答を生成する
 def print_response(prompt: str, index):
     query_engine = index.as_query_engine()
-    return query_engine.query(prompt+"日本語で答えてください。文末には「～です」という口調で説明してください。")
+    return query_engine.query(prompt+"日本語で答えてください。質問に関係ないことは、話さないでください。出力は必ず２文以内にしてください。それが不可能な場合でもできるだけ、少なくなるようにして下さい。")
 
 
 #UDP通信周りの関数
