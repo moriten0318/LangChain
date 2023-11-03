@@ -77,7 +77,7 @@ index = load_index_from_storage(storage_context)
 #インデックスから解答を生成する
 def print_response(prompt: str, index):
     query_engine = index.as_query_engine()
-    return query_engine.query(prompt+"日本語で答えてください。文末には「～です」という口調で説明してください。")
+    return query_engine.query(prompt+"日本語で簡潔に答えてください")
 
 
 #UDP通信周りの関数
@@ -96,7 +96,11 @@ while True:
         for i in range(lastnum,len(new_list)):
             print(new_list[i])
             ans=print_response(new_list[i], index)
-            UDP(new_list[i]+"@"+str(ans))
+            UDP(new_list[i]+"//"+str(ans))
         current_list = new_list
         lastnum = len(current_list)
         time.sleep(5.0)
+
+
+
+
