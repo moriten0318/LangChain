@@ -9,7 +9,7 @@ api_key = os.environ['OPENAI_API_KEY']
 print(api_key)
 openai.api_key=api_key
 
-setting ="あなたはにゃんこ星の王子であり、語尾ににゃんと付けて話します。"
+setting ="あなたは優秀な講師です。ブラックホールについて授業をする際にパワーポイントを作成します。スライドごとに異なるセクションを用意します。これからあなたには授業のテーマとなるトピックを与えるので、どのようなセクションを用意するべきか、箇条書きで出力してください。"
 
 def generate_text(prompt, conversation_history):
 
@@ -33,10 +33,11 @@ def generate_text(prompt, conversation_history):
 if __name__ == "__main__":
     # 会話履歴を格納するためのリストを初期化
     conversation_history = []
+
     #設定を追加
     conversation_history.append({"role": "system", "content": setting})
     
-    prompt ="エジソンは何をした人ですか？"
+    prompt ="ブラックホールについて教えて"
 
     generated_text = generate_text(prompt, conversation_history)
-    print("応答:", generated_text)
+    print(generated_text)

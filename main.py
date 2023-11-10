@@ -58,12 +58,11 @@ if not os.path.exists(index_dir):
     os.mkdir(index_dir)
 
 #ファイルの読み込み
-filename="data\\testpdf.pdf"
+filename="data\\karada.pdf"
 root=os.path.dirname(__file__)+"\\"+filename#実行ファイルがあるディレクトリを指定
 loader = download_loader("CJKPDFReader")#PDFローダーを準備
 #rootを作業ディレクトリの相対パスに変換して読み込み↓　触るな！
 docs = loader().load_data(root.replace(os.getcwd().replace("C","c")+"\\",""))
-
 
 index = GPTVectorStoreIndex.from_documents(docs)#docsからindex作成
 index.storage_context.persist(index_dir)#index保存
@@ -94,7 +93,6 @@ while True:
     else:
     #スプレッドシートに更新があったときの処理
         for i in range(lastnum,len(new_list)):
-            print(new_list[i])
             ans=print_response(new_list[i], index)
             UDP(new_list[i]+"@"+str(ans))
         current_list = new_list

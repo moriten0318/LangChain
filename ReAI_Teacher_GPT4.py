@@ -6,6 +6,11 @@ import gspread
 import socket
 import time
 
+from llama_index import (
+    download_loader
+)
+
+
 #APIキー取得して渡す
 load_dotenv()
 api_key = os.environ['OPENAI_API_KEY']
@@ -40,7 +45,13 @@ setting ="あなたの名前=ハル\
     日本語で答えてください。質問に関係ないことは、話さないでください。\
     出力は必ず簡潔に答えてください。それが不可能な場合でもできるだけ、少なくなるようにして下さい。"
 
-lesson =""
+loader = download_loader("CJKPDFReader")#PDFローダーを準備
+
+filelist=["index_test","クリスパー・キャス","ダークマター","水筒","星が光って見えるのはなぜだろう"]
+information=""
+
+
+
 
 
 #スプレッドシートを取得するための関数
@@ -76,15 +87,27 @@ if __name__ == "__main__":
     # 会話履歴を格納するためのリストを初期化
     conversation_history = []
     #設定を追加
-    conversation_history.append({"role": "system", "content": setting+lesson})
-    
+    conversation_history.append({"role": "system", "content": setting})
 
+    for file_basename in filelist:
+        # ファイル名に.pdf拡張子を追加
+        filename = f"data\\{file_basename}.pdf"
+        root=os.path.dirname(__file__)+"\\"+filename#実行ファイルがあるディレクトリを指定
+        #rootを作業ディレクトリの相対パスに変換して読み込み↓　触るな！
+        docs = loader().load_data(root.replace(os.getcwd().replace("C","c")+"\\",""))
+        document = docs[0]
+        information = information+document.text
+
+
+    information=information+"上記はあなたの記憶です。質問を受け取ったら、上記の内容を踏まえながら解答を生成してください。"
+    conversation_history.append({"role": "system", "content": information})
+    
     #mainループ
     while True:
         new_list = get_sheet()    
         if new_list==current_list:
             print("更新はありません")
-            time.sleep(5.0)
+            time.sleep(3.0)
             continue
         else:
         #スプレッドシートに更新があったときの処理
@@ -94,4 +117,4 @@ if __name__ == "__main__":
                 UDP(new_list[i]+"@"+str(ans))
             current_list = new_list
             lastnum = len(current_list)
-            time.sleep(5.0)
+            time.sleep(1.0)
