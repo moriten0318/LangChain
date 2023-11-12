@@ -58,7 +58,7 @@ if not os.path.exists(index_dir):
     os.mkdir(index_dir)
 
 #ファイルの読み込み
-filename="data\\testpdf.pdf"
+filename="data\\ChatGPT用指導案.pdf"
 root=os.path.dirname(__file__)+"\\"+filename#実行ファイルがあるディレクトリを指定
 loader = download_loader("CJKPDFReader")#PDFローダーを準備
 #rootを作業ディレクトリの相対パスに変換して読み込み↓　触るな！
@@ -80,27 +80,21 @@ def print_response(prompt: str, index):
     return query_engine.query(prompt+"日本語で簡潔に答えてください")
 
 
-#UDP通信周りの関数
-def UDP(content):
-    client.sendto(content.encode('utf-8'),(HOST,PORT))
-
-#mainループ
-while True:
-    new_list = get_sheet()    
-    if new_list==current_list:
-        print("更新はありません")
-        time.sleep(5.0)
-        continue
-    else:
-    #スプレッドシートに更新があったときの処理
-        for i in range(lastnum,len(new_list)):
-            print(new_list[i])
-            ans=print_response(new_list[i], index)
-            UDP(new_list[i]+"//"+str(ans))
-        current_list = new_list
-        lastnum = len(current_list)
-        time.sleep(5.0)
-
+text=\
+"本時の展開の時系列について整理しなさい。\
+時系列の構造について理解するために、本時の展開のすべての内容をJSON形式で出力しなさい。\
+本時の展開には時間、学習活動、指導上の留意点、評価の観点の4項目が存在します。\
+これらの4項目をキーとして、時系列順にデータが並ぶように整理してください。\
+本時の展開の全ての要素についてJSONにまとめてください。\
+以下にJSON形式の例を示します。空欄になっている箇所はnullにしてください。\
+それではあなたの全力を発揮して、最高の出力をしてください。\
+[\
+  {時間 : 導入, 学習活動: 1.前時の学習をふりかえる。,指導上の留意点: ・前回の内容についてしっかりと学習できているかを導入で確認する。難しそうなら簡単な振り返りを行ってから本時の授業を行う。, 評価の観点 :null },\
+ {時間 :展開, 学習活動:・「骨」「筋肉」「関節」の各単語の意味を体で確認しながら正確に理解するように促す。今後の授業で扱う単語になるので、しっかりと確認しておく。,指導上の留意点 : ・「骨」「筋肉」「関節」の各単語の意味を体で確認しながら正確に理解するように促す。今後の授業で扱う単語になるので、しっかりと確認しておく,評価の観点:null },\
+・・・\
+]"
+ans=print_response(text, index)
+print(ans)
 
 
 

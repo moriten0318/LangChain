@@ -2,6 +2,7 @@ import os
 import openai
 from dotenv import load_dotenv
 
+#GPT4.0に質問する簡単なScript
 
 #APIキー取得して渡す
 load_dotenv()
@@ -9,7 +10,8 @@ api_key = os.environ['OPENAI_API_KEY']
 print(api_key)
 openai.api_key=api_key
 
-setting ="あなたは優秀な講師です。ブラックホールについて授業をする際にパワーポイントを作成します。スライドごとに異なるセクションを用意します。これからあなたには授業のテーマとなるトピックを与えるので、どのようなセクションを用意するべきか、箇条書きで出力してください。"
+setting ="あなたは優秀な講師です。ブラックホールについて授業をする際にパワーポイントを作成します。\
+    スライドごとに異なるセクションを用意します。これからあなたには授業のテーマとなるトピックを与えるので、どのようなセクションを用意するべきか、箇条書きで出力してください。"
 
 def generate_text(prompt, conversation_history):
 
